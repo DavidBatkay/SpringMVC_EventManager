@@ -10,19 +10,26 @@
 </head>
 <body>
 	<h1>Songs Page</h1>
+	
+	<a href="<c:url value="/songs/createSong"/>">Create new song</a>
+	
 	<table border="1">
 		<tr>
 			<th>Id</th>
 			<th>Titlu</th>
 			<th>Autor</th>
 			<th>Detalii</th>
+			<th>Editeaza</th>
+			<th>Sterge</th>
 		</tr>		
 		<c:forEach var="song" items="${all}">
 			<tr>
-				<th><c:out value="${song.id}"/></th>
-				<th><c:out value="${song.titlu}"/></th>
-				<th><c:out value="${song.autor}"/></th>
-				<th><a href="<c:url value='/song?id=${song.id}' />">Detalii</a></th>
+				<td><c:out value="${song.id}"/></td>
+				<td><c:out value="${song.titlu}"/></td>
+				<td><c:out value="${song.autor}"/></td>
+				<td><a href="<c:url value='/song?id=${song.id}' />">Detalii</a></td>
+				<td><a href="<c:url value='/songs/edit/${song.id}' />">Editeaza</a></td>
+				<td><a href="<c:url value='/songs/delete/${song.id}' />">Sterge</a></td>
 			</tr>
 		</c:forEach>
 	

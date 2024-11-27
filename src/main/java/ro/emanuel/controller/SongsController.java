@@ -5,7 +5,11 @@ import java.util.ArrayList;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import ro.emanuel.cantece.dao.CantecDAO;
@@ -36,5 +40,48 @@ public class SongsController {
 		
 		return "songs.jsp";
 	}
-
+	
+	@GetMapping("/songs/edit/{id}")
+	public String editSong(Model model, @PathVariable int id) throws ClassNotFoundException, SQLException {
+		Cantec c = CantecDAO.getById(id);
+		
+		model.addAttribute("cantec", c);
+		
+		return "/cantecEdit.jsp";
+	}
+	
+	@PostMapping("/songs/edit")
+	public String saveEditSong(@ModelAttribute("cantec") Cantec c,
+			Model model, BindingResult result) throws ClassNotFoundException, SQLException {
+		
+		CantecDAO.update(c);
+		
+		return "redirect:/songs";
+	}
+	
+	@GetMapping("/songs/createSong")
+	public String createSong(Model model) {
+		
+		Cantec c = new Cantec();
+		model.addAttribute("cantecNou", c);
+		
+		return "/createSong.jsp";
+	}
+	
+	@PostMapping("/songs/saveNewSong")
+	public String saveNewSong(@ModelAttribute("cantecNou") Cantec cantec) throws ClassNotFoundException, SQLException {
+		
+		CantecDAO.create(cantec);
+		
+		return "redirect:/songs";
+	}
+	
+	@GetMapping("/songs/delete/{id}")
+	public String deleteSong(@PathVariable int id) throws ClassNotFoundException, SQLException {
+		
+		CantecDAO.delete(id);
+		
+		return "redirect:/songs";
+	}
+	
 }
