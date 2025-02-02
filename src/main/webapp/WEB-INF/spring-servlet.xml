@@ -15,5 +15,5 @@
     <context:component-scan base-package="ro.emanuel" />
     <mvc:annotation-driven />
     
-	
+	<mvc:resources mapping="/resources/**" location="/resources/" />
 </beans>
